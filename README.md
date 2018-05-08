@@ -12,7 +12,7 @@ To pull the image from dockerhub, enter the following line:
 
 At the moment, this docker image is being developed and refined, and has the 'development' tag. To pull this docker image and test it, use the following command:
 
-    docker pull bigcatum/bridgedb:development
+    docker pull bigcatum/bridgedb:develop-human-2
 
 This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of all .bridge files for identifier mapping of all species that are covered in BridgeDb.
 
@@ -30,11 +30,11 @@ For windows users, it is necessary to know the IP adress of the VirtualBox envir
 
 To run the docker image that you just downloaded, the following line should be entered:
 
-    docker run -p 8183:8183 bigcatum/bridgedb
+    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:develop-human-2
 
 ## Opening the docker image in a browser
 
-To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, vollowed by ':8183'. On Unix, the docker image can be entered by writing 'http://localhost:8183/' in their browser.
+To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, vollowed by ':8080/swagger/'. On Unix, the docker image can be entered by writing 'http://localhost:8080/swagger/' in their browser.
 
 ## Stopping the running container
 
