@@ -12,5 +12,6 @@ COPY gdb.config /opt/bridgedb/bridgedb-2.3.0/
 RUN chmod +x /opt/bridgedb/bridgedb-2.3.0/start-server.sh
 
 EXPOSE 8183
+EXPOSE 8080
 
 ENTRYPOINT /opt/bridgedb/bridgedb-2.3.0/start-server.sh
