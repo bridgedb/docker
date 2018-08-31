@@ -46,3 +46,14 @@ This command shows all containers on your VirtualBox Environment, including thei
 
     docker stop [container ID]
 
+## Customizing the Docker
+
+If you wish to change the BridgeDb mapping databases the Docker image uses, you can change files with:
+
+```shell
+docker run bigcatum/bridgedb:ops-v1
+docker exec -i -t [container ID] bash
+```
+
+Files of interest are then the `/var/www/html/swagger/swagger.json` where you may wish to comment out the
+metabolite section of you do not host metabolite identifiers.
