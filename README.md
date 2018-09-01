@@ -55,5 +55,20 @@ docker run bigcatum/bridgedb:ops-v1
 docker exec -i -t [container ID] bash
 ```
 
-Files of interest are then the `/var/www/html/swagger/swagger.json` where you may wish to comment out the
-metabolite section of you do not host metabolite identifiers.
+Files of interest are then the `/setup.sh`, `/var/www/html/swagger/swagger.json` and
+`/opt/bridgedb/bridgedb-2.3.0/gdb.config` where you may wish to comment out the metabolite
+section of the Swagger configuration if you do not host metabolite identifiers,
+or download additional or newer mapping file.
+
+Once you are happy with the customized docker, 
+
+```shell
+docker commit 6b291a5b3cb1 bigcatum/bridgedb:custom-v1
+```
+
+This new tagged image can then be pushed to DockerHub (assuming you are logged in) with:
+
+```shell
+docker push bigcatum/bridgedb:custom-v1
+```
+
