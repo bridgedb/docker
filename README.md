@@ -10,11 +10,11 @@ To pull the image from dockerhub, enter the following line:
 
     docker pull bigcatum/bridgedb
 
-At the moment, this docker image is being developed and refined, and has the 'development' tag. To pull this docker image and test it, use the following command:
+At the moment, this docker image is being developed and refined for OpenRiskNet, and has the 'orn-v1' tag. To pull this docker image and test it, use the following command:
 
-    docker pull bigcatum/bridgedb:develop-human-2
+    docker pull bigcatum/bridgedb:orn-v1
 
-This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of all .bridge files for identifier mapping of all species that are covered in BridgeDb.
+This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of identifier mappint (.bridge) files for human, mouse and rat.
 
 To confirm that this step has worked and the docker image is pulled correctly, enter the following:
 
@@ -30,7 +30,7 @@ For windows users, it is necessary to know the IP adress of the VirtualBox envir
 
 To run the docker image that you just downloaded, the following line should be entered:
 
-    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:develop-human-2
+    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:orn-v1
 
 ## Opening the docker image in a browser
 
@@ -51,7 +51,7 @@ This command shows all containers on your VirtualBox Environment, including thei
 If you wish to change the BridgeDb mapping databases the Docker image uses, you can change files with:
 
 ```shell
-docker run bigcatum/bridgedb:ops-v1
+docker run bigcatum/bridgedb:orn-v1
 docker exec -i -t [container ID] bash
 ```
 
@@ -60,10 +60,11 @@ Files of interest are then the `/setup.sh`, `/var/www/html/swagger/swagger.json`
 section of the Swagger configuration if you do not host metabolite identifiers,
 or download additional or newer mapping file.
 
-Once you are happy with the customized docker, 
+Once you are happy with the customized docker, you can stop the container and build a Docker image from the container with:
 
 ```shell
-docker commit 6b291a5b3cb1 bigcatum/bridgedb:custom-v1
+docker stop [container ID]
+docker commit [container ID] bigcatum/bridgedb:custom-v1
 ```
 
 This new tagged image can then be pushed to DockerHub (assuming you are logged in) with:
