@@ -30,8 +30,8 @@ COPY ports.conf /etc/apache2
 COPY 000-default.conf /etc/apache2/sites-enabled/
 
 RUN mkdir /var/www/html/swagger/
-COPY swagger-ui/dist/ /var/www/html/swagger/
-COPY swagger-webservice/ /var/www/html/swagger/
+COPY resources/swagger-ui/dist/ /var/www/html/swagger/
+COPY resources/swagger-webservice/ /var/www/html/swagger/
 
 EXPOSE 8183 8080
 
