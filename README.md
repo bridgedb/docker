@@ -1,4 +1,4 @@
-https://jenkins.bigcat.unimaas.nl/view/GUI%20tests/job/Docker%20test/badge/icon
+<img src="https://jenkins.bigcat.unimaas.nl/view/GUI%20tests/job/Docker%20test/badge/icon">
 
 # Welcome to the BridgeDb Docker repository!
 
