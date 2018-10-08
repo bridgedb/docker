@@ -1,10 +1,14 @@
-<img src="https://jenkins.bigcat.unimaas.nl/view/GUI%20tests/job/Docker%20test/badge/icon">
+
 
 # Welcome to the BridgeDb Docker repository!
 
 BridgeDb is a framework for finding and mapping equivalent database identifiers. For local use, we work on a docker image. This docker image is located on DockerHub: https://hub.docker.com/r/bigcatum/bridgedb/
 
 For Windows users, it is required to download Docker (https://www.docker.com/get-docker) and Docker toolbox (https://docs.docker.com/toolbox/overview/). Afterwards, start the docker quickstart terminal and let is set up a VirtualBox environment.
+
+## Project status
+
+<img src="https://jenkins.bigcat.unimaas.nl/view/GUI%20tests/job/Docker%20test/badge/icon">
 
 ## Pulling the image from DockerHub
 
