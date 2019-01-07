@@ -34,7 +34,7 @@ wget -r -l1 --no-parent -A "39.bridge" https://bridgedb.org/data/gene_database/
 
 
 cd /opt/bridgedb-databases/www.bridgedb.org/data/gene_database
-wget -c -O metabolites-20180809.bridge "https://ndownloader.figshare.com/files/12750080"
+wget -c -O metabolites-20181224.bridge "https://ndownloader.figshare.com/files/13902533"
 
 #cd bridgedb-2.2.1
 
