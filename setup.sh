@@ -19,8 +19,8 @@ cd /opt/bridgedb-databases/
 
 export ENSEMBLMAIN="91"
 
-wget -r -l1 --no-parent -A "91.bridge" https://bridgedb.org/data/gene_database/
-wget -r -l1 --no-parent -A "39.bridge" https://bridgedb.org/data/gene_database/
+wget -r -l1 --no-parent -A "*91.bridge" https://www.bridgedb.org/data/gene_database/
+wget -r -l1 --no-parent -A "*39.bridge" https://www.bridgedb.org/data/gene_database/
 
 #wget -r -l1 --no-parent -A "Hs_Derby_Ensembl_${ENSEMBLMAIN}.bridge" https://www.bridgedb.org/data/gene_database/
 #wget -r -l1 --no-parent -A "Mm_Derby_Ensembl_${ENSEMBLMAIN}.bridge" https://www.bridgedb.org/data/gene_database/
@@ -31,7 +31,6 @@ wget -r -l1 --no-parent -A "39.bridge" https://bridgedb.org/data/gene_database/
 #wget -r -l1 --no-parent -A ".zip" https://bridgedb.org/data/gene_database/
 #cd /opt/bridgedb-databases/bridgedb.org/data/gene_database/
 #unzip *.zip
-
 
 cd /opt/bridgedb-databases/www.bridgedb.org/data/gene_database
 wget -c -O metabolites-20181224.bridge "https://ndownloader.figshare.com/files/13902533"
