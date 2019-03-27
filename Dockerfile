@@ -8,10 +8,10 @@ COPY setup.sh /
 RUN chmod +x setup.sh
 RUN /setup.sh
 
-COPY gdb.config /opt/bridgedb/bridgedb-2.3.0/
-COPY startup.sh /opt/bridgedb/bridgedb-2.3.0/
+COPY gdb.config /opt/bridgedb/bridgedb-2.3.1/
+COPY startup.sh /opt/bridgedb/bridgedb-2.3.1/
 
-RUN chmod +x /opt/bridgedb/bridgedb-2.3.0/startup.sh
+RUN chmod +x /opt/bridgedb/bridgedb-2.3.1/startup.sh
 
 RUN apt-get update
 RUN apt-get install apache2 -y
@@ -35,4 +35,4 @@ COPY swagger-webservice/ /var/www/html/swagger/
 
 EXPOSE 8183 8080
 
-ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb-2.3.0/startup.sh
+ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb-2.3.1/startup.sh
