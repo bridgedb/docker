@@ -18,7 +18,7 @@ To pull the image from dockerhub, enter the following line:
 
 At the moment, this docker image is being developed and refined for OpenRiskNet, and has the 'orn-v1' tag. To pull this docker image and test it, use the following command:
 
-    docker pull bigcatum/bridgedb:orn-v1
+    docker pull bigcatum/bridgedb:all-v3
 
 This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of identifier mappint (.bridge) files for human, mouse and rat.
 
@@ -36,7 +36,7 @@ For windows users, it is necessary to know the IP adress of the VirtualBox envir
 
 To run the docker image that you just downloaded, the following line should be entered:
 
-    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:orn-v1
+    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:all-v3
 
 ## Opening the docker image in a browser
 
@@ -57,7 +57,7 @@ This command shows all containers on your VirtualBox Environment, including thei
 If you wish to change the BridgeDb mapping databases the Docker image uses, you can change files with:
 
 ```shell
-docker run bigcatum/bridgedb:orn-v1
+docker run bigcatum/bridgedb:all-v3
 docker exec -i -t [container ID] bash
 ```
 
@@ -70,12 +70,12 @@ Once you are happy with the customized docker, you can stop the container and bu
 
 ```shell
 docker stop [container ID]
-docker commit [container ID] bigcatum/bridgedb:custom-v1
+docker commit [container ID] bigcatum/bridgedb:all-v3
 ```
 
 This new tagged image can then be pushed to DockerHub (assuming you are logged in) with:
 
 ```shell
-docker push bigcatum/bridgedb:custom-v1
+docker push bigcatum/bridgedb:all-v3
 ```
 
