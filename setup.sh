@@ -10,8 +10,8 @@ cd /opt/
 mkdir bridgedb/
 cd bridgedb/
 
-wget https://www.bridgedb.org/data/releases/bridgedb-2.3.1.tar.gz
-tar -xvzf bridgedb-2.3.0.tar.gz bridgedb-2.3.1
+wget https://www.bridgedb.org/data/releases/bridgedb-2.3.0.tar.gz
+tar -xvzf bridgedb-2.3.0.tar.gz bridgedb-2.3.0
 
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
