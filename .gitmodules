@@ -1,6 +1,3 @@
-[submodule "swagger-webservice"]
-	path = swagger-webservice
-	url = https://github.com/bridgedb/swagger-webservice.git
 [submodule "swagger-ui"]
 	path = swagger-ui
 	url = https://github.com/swagger-api/swagger-ui.git
