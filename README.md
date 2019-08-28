@@ -81,4 +81,4 @@ docker push bigcatum/bridgedb:[tag]
 
 ## Creating a new Docker image
 
-When creating a new BridgeDb Docker image, update the '/setup.sh' for BridgeDb version and mapping files, 'Dockerfile' for BridgeDb version, and 'gdb.config' for BridgeDb mapping files.
+When creating a new BridgeDb Docker image, update the `/setup.sh` for BridgeDb version and mapping files, `Dockerfile` for BridgeDb version, and `/opt/bridgedb/bridgedb-2.3.1/gdb.config` for BridgeDb mapping files.
