@@ -16,11 +16,11 @@ To pull the image from dockerhub, enter the following line:
 
     docker pull bigcatum/bridgedb
 
-At the moment, this docker image is being developed and refined for OpenRiskNet, and has the 'orn-v1' tag. To pull this docker image and test it, use the following command:
+At the moment, this docker image is being developed and refined for OpenRiskNet, for which the latest version is indicated in the Docker image tag. To pull this docker image and test it, use the following command:
 
-    docker pull bigcatum/bridgedb:all-v3
+    docker pull bigcatum/bridgedb:[tag]
 
-This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of identifier mappint (.bridge) files for human, mouse and rat.
+This step might take some time, depending on the amount of mapping datasets (.bridge-files) are being downloaded during this step. Currently, the main docker image consists of identifier mapping (.bridge) files for human, mouse and rat.
 
 To confirm that this step has worked and the docker image is pulled correctly, enter the following:
 
@@ -36,11 +36,11 @@ For windows users, it is necessary to know the IP adress of the VirtualBox envir
 
 To run the docker image that you just downloaded, the following line should be entered:
 
-    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:all-v3
+    docker run -p 8080:8080 -p 8183:8183 bigcatum/bridgedb:[tag]
 
 ## Opening the docker image in a browser
 
-To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, vollowed by ':8080/swagger/'. On Unix, the docker image can be entered by writing 'http://localhost:8080/swagger/' in their browser.
+To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, vollowed by ':8080/swagger/'. On Linux, the docker image can be entered by writing 'http://localhost:8080/swagger/' in the browser.
 
 ## Stopping the running container
 
@@ -52,17 +52,17 @@ This command shows all containers on your VirtualBox Environment, including thei
 
     docker stop [container ID]
 
-## Customizing the Docker
+## Customizing the Docker container
 
 If you wish to change the BridgeDb mapping databases the Docker image uses, you can change files with:
 
 ```shell
-docker run bigcatum/bridgedb:all-v3
+docker run bigcatum/bridgedb:[tag]
 docker exec -i -t [container ID] bash
 ```
 
 Files of interest are then the `/setup.sh`, `/var/www/html/swagger/swagger.json` and
-`/opt/bridgedb/bridgedb-2.3.0/gdb.config` where you may wish to comment out the metabolite
+`/opt/bridgedb/bridgedb-2.3.1/gdb.config` where you may wish to comment out the metabolite
 section of the Swagger configuration if you do not host metabolite identifiers,
 or download additional or newer mapping file.
 
@@ -70,12 +70,15 @@ Once you are happy with the customized docker, you can stop the container and bu
 
 ```shell
 docker stop [container ID]
-docker commit [container ID] bigcatum/bridgedb:all-v3
+docker commit [container ID] bigcatum/bridgedb:tag
 ```
 
 This new tagged image can then be pushed to DockerHub (assuming you are logged in) with:
 
 ```shell
-docker push bigcatum/bridgedb:all-v3
+docker push bigcatum/bridgedb:[tag]
 ```
 
+## Creating a new Docker image
+
+When creating a new BridgeDb Docker image, update the '/setup.sh' for BridgeDb version and mapping files, 'Dockerfile' for BridgeDb version, and 'gdb.config' for BridgeDb mapping files.
