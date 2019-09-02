@@ -3,7 +3,6 @@
      "x-orn-@id": "https://bridgedb.prod.openrisknet.org",
     "x-orn-@type": "x-orn:Service",
     "info": {
-	"description": "BridgeDb is a framework to map identifiers between various biological databases. These mappings are provided for genes, proteins, genetic variants, metabolites, and metabolic reactions. ",
         "version": "0.9.0",
         "title": "BridgeDb identifier mapping service",
         "name": "BridgeDb identifier mapping service",
@@ -66,13 +65,7 @@
                     {
                         "name": "systemCode",
                         "in": "path",
-			    "x-orn-@id": "x-orn:systemCode",
-                        "in": "query",
                         "x-orn-@type": ["x-orn:Descriptor","string"],
-                         "x-orn:expects": {
-                     "x-orn-@id": "x-orn:Identifier",
-                     "x-orn-@type": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
-                        },
                         "description": "Source (input) data source [system code](http://vocabularies.bridgedb.org/#systemCode)",
                         "required": true,
 			"default": "L",
@@ -99,8 +92,8 @@
         }
         
 },
-"x-orn-@context": {
-    "x-orn-@vocab": "http://openrisknet.org/schema#",
+"@context": {
+    "@vocab": "http://openrisknet.org/schema#",
     "x-orn": "http://openrisknet.org/schema#",
     "x-orn-@id": "@id",
     "x-orn-@type":"@type",
