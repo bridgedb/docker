@@ -97,7 +97,6 @@
     "x-orn": "http://openrisknet.org/schema#",
     "x-orn-@id": "@id",
     "x-orn-@type":"@type",
-    "x-orn-@name":"@name",
     "title": "x-orn:title",
   "info": "x-orn:info",
   "paths":
