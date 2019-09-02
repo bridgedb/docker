@@ -8,6 +8,7 @@
      "x-orn-@id": "https://bridgedb.prod.openrisknet.org",
     "x-orn-@type": "x-orn:Service",
     "info": {
+	"description": "BridgeDb is a framework to map identifiers between various biological databases. These mappings are provided for genes, proteins, genetic variants, metabolites, and metabolic reactions. ",
         "version": "0.9.0",
         "title": "BridgeDb identifier mapping service",
         "name": "BridgeDb identifier mapping service",
