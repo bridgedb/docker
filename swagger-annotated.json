@@ -1,0 +1,161 @@
+{
+    "swagger": "2.0",
+    "x-orn:openapi": "2.0",
+     "x-orn-@id": "https://bridgedb.prod.openrisknet.org",
+    "x-orn-@type": "x-orn:Service",
+    "info": {
+        "version": "0.9.0",
+        "title": "BridgeDb identifier mapping service",
+        "name": "BridgeDb identifier mapping service",
+        "contact": {
+      "name": "Maastricht University",
+      "email": "marvin.martens@maastrichtuniversity.nl",
+      "url": "http://bridgedb.org"
+        } },
+   
+    "consumes":["text/html"],
+    "produces":["*/*"],
+    "host": "",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/{organism}/xrefs/{systemCode}/{identifier}": {
+            "x-orn:path": "https://bridgedb.prod.openrisknet.org/{organism}/xrefs/{systemCode}/{identifier}",
+            "get": {
+
+                 "x-orn:path": "https://bridgedb.prod.openrisknet.org/{organism}/xrefs/{systemCode}/{identifier}",
+                 "x-orn:method": "Get",
+                "description": "Returns a list of xrefs that map to a given identifier, data source, and organism.",
+                 "x-orn:expects": {
+                     "x-orn-@id": "x-orn:Descriptor",
+                     "x-orn-@type": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks","Human", "Homo sapiens","Tuberculosis", "Mycobacterium tuberculosis","Mosquito", "Anopheles gambiae","Zebra fish", "Danio rerio","Arabidopsis thaliana","Rice", "Oryza sativa","Sea Squirt", "Ciona intestinalis","Barley", "Hordeum vulgare","Frog", "Xenopus tropicalis","Soybean", "Glycine max","Fruit fly", "Drosophila melanogaster","Horse", "Equus caballus",	"Rhesus Monkey", "Macaca mulatta","Wine Grape", "Vitis vinifera",	"Yeast", "Saccharomyces cerevisiae",	"Tomato", "Solanum lycopersicum",	"Rat", "Rattus norvegicus",	"Cow", "Bos taurus",	"Western Balsam Poplar", "Populus trichocarpa",	"Chimpanzee", "Pan troglodytes","Indian Rice", "Oryza indica","Dog", "Canis familiaris",	"Maize", "Zea mays","Pig", "Sus scrofa","Worm", "Caenorhabditis elegans",	"Platypus", "Ornithorhynchus anatinus",	"Chicken", "Gallus gallus",	"Fusarium graminearum", "Gibberella zeae","Bacillus subtilis",	"Escherichia coli",	"Black mold", "Aspergillus niger",	"Mouse", "Mus musculus"]
+                 },
+                    "x-orn:returns":{
+                        "x-orn-@id": "x-orn:Identifier",
+                        "x-orn-@type": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
+                    },
+		        "tags":["Genes","Metabolites","Chemicals","Proteins"],
+                "parameters": [
+                    {
+                        "name": "dataSource",
+                        "x-orn-@id": "x-orn:dataSource",
+                        "in": "query",
+                        "x-orn-@type": ["x-orn:Descriptor","string"],
+                         "x-orn:expects": {
+                     "x-orn-@id": "x-orn:Identifier",
+                     "x-orn-@type": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
+                        },
+                        "description": "(Optional) Restrict results by data source [system code](http://vocabularies.bridgedb.org/#systemCode)",
+                        "required": false,
+			            "enum": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
+},
+                    {
+                        "name": "organism",
+                        "x-orn-@id": "x-orn:organism",
+                        "in": "path",
+                        "x-orn-@type": ["x-orn:taxonomy","string"],
+                        "x-orn:expects": {
+                     "x-orn-@id": "x-orn:taxonomy",
+                     "x-orn-@type": ["Human", "Homo sapiens","Tuberculosis", "Mycobacterium tuberculosis","Mosquito", "Anopheles gambiae","Zebra fish", "Danio rerio","Arabidopsis thaliana","Rice", "Oryza sativa","Sea Squirt", "Ciona intestinalis","Barley", "Hordeum vulgare","Frog", "Xenopus tropicalis","Soybean", "Glycine max","Fruit fly", "Drosophila melanogaster","Horse", "Equus caballus",	"Rhesus Monkey", "Macaca mulatta","Wine Grape", "Vitis vinifera",	"Yeast", "Saccharomyces cerevisiae",	"Tomato", "Solanum lycopersicum",	"Rat", "Rattus norvegicus",	"Cow", "Bos taurus",	"Western Balsam Poplar", "Populus trichocarpa",	"Chimpanzee", "Pan troglodytes","Indian Rice", "Oryza indica","Dog", "Canis familiaris",	"Maize", "Zea mays","Pig", "Sus scrofa","Worm", "Caenorhabditis elegans",	"Platypus", "Ornithorhynchus anatinus",	"Chicken", "Gallus gallus",	"Fusarium graminearum", "Gibberella zeae","Bacillus subtilis",	"Escherichia coli",	"Black mold", "Aspergillus niger",	"Mouse", "Mus musculus"]
+                        },
+                        "description": "Organism [Latin name](http://vocabularies.bridgedb.org/#latinName) or [short name](http://vocabularies.bridgedb.org/#shortName).",
+                        "required": true,
+			"enum": ["Human", "Homo sapiens","Tuberculosis", "Mycobacterium tuberculosis","Mosquito", "Anopheles gambiae","Zebra fish", "Danio rerio","Arabidopsis thaliana","Rice", "Oryza sativa","Sea Squirt", "Ciona intestinalis","Barley", "Hordeum vulgare","Frog", "Xenopus tropicalis","Soybean", "Glycine max","Fruit fly", "Drosophila melanogaster","Horse", "Equus caballus",	"Rhesus Monkey", "Macaca mulatta","Wine Grape", "Vitis vinifera",	"Yeast", "Saccharomyces cerevisiae",	"Tomato", "Solanum lycopersicum",	"Rat", "Rattus norvegicus",	"Cow", "Bos taurus",	"Western Balsam Poplar", "Populus trichocarpa",	"Chimpanzee", "Pan troglodytes","Indian Rice", "Oryza indica","Dog", "Canis familiaris",	"Maize", "Zea mays","Pig", "Sus scrofa","Worm", "Caenorhabditis elegans",	"Platypus", "Ornithorhynchus anatinus",	"Chicken", "Gallus gallus",	"Fusarium graminearum", "Gibberella zeae","Bacillus subtilis",	"Escherichia coli",	"Black mold", "Aspergillus niger",	"Mouse", "Mus musculus"]
+                    },
+                    {
+                        "name": "systemCode",
+                        "in": "path",
+                        "x-orn-@type": ["x-orn:Descriptor","string"],
+                        "description": "Source (input) data source [system code](http://vocabularies.bridgedb.org/#systemCode)",
+                        "required": true,
+			"default": "L",
+			"enum": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
+                    },
+                    {
+                        "name": "identifier",
+                        "x-orn-@type": ["x-orn:Descriptor","string"],
+                        "x-orn-@id": "x-orn:Identifier",
+                        "x-orn:expects": "x-orn:Identifier",
+                        "in": "path",
+                        "description": "Identifier",
+                        "required": true,
+			"default": "1234"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-orn:returns": "Returns a tab-delimited list of xrefs that map to a given identifier",
+                        "description": "Returns a tab-delimited list of xrefs that map to a given identifier"
+                    }
+                }
+            }
+        }
+        
+},
+"@context": {
+    "@vocab": "http://openrisknet.org/schema#",
+    "x-orn": "http://openrisknet.org/schema#",
+    "x-orn-@id": "@id",
+    "x-orn-@type":"@type",
+    "x-orn-@name":"@name",
+    "title": "x-orn:title",
+  "info": "x-orn:info",
+  "paths":
+    { "@id": "x-orn:paths"
+     },
+    "Ik": "http://semanticscience.org/resource/CHEMINF_000059",
+    "En":"http://edamontology.org/data_1033",
+    "Cs":"http://semanticscience.org/resource/CHEMINF_000405",
+    "Ck":"http://semanticscience.org/resource/CHEMINF_000409",
+    "Ch":"http://semanticscience.org/resource/CHEMINF_000408",
+    "Pd":"http://semanticscience.org/resource/CHEMINF_000408",
+    "U":"http://edamontology.org/data_1104",
+    "Ma":"http://edamontology.org/data_2641",
+    "Lm":"http://semanticscience.org/resource/CHEMINF_000564",
+    "Wd":"http://semanticscience.org/resource/CHEMINF_000567",
+    "Cpc":"http://semanticscience.org/resource/CHEMINF_000140",
+    "Rk":"http://edamontology.org/data_2608",
+    "Ce":"http://semanticscience.org/resource/CHEMINF_000407",
+    "S":"http://edamontology.org/data_3021",
+    "L":"http://edamontology.org/data_1027",
+    "Om":"http://edamontology.org/data_1153",
+    "T":"http://edamontology.org/data_1176",
+    "H":"http://edamontology.org/data_2298", 
+    "Re":"http://edamontology.org/data_1155", 
+    "Q":"http://edamontology.org/data_1098", 
+    "Ca":"http://semanticscience.org/resource/CHEMINF_000446",
+    "Up":"http://edamontology.org/data_2645",
+    "organism":"http://purl.bioontology.org/ontology/NCBITAXON/131567",
+    "Human":"http://purl.bioontology.org/ontology/NCBITAXON/9606", "Homo sapiens":"http://purl.bioontology.org/ontology/NCBITAXON/9606",
+				"Tuberculosis":"http://purl.bioontology.org/ontology/NCBITAXON/1773", "Mycobacterium tuberculosis":"http://purl.bioontology.org/ontology/NCBITAXON/1773",
+				"Mosquito":"http://purl.bioontology.org/ontology/NCBITAXON/7165", "Anopheles gambiae":"http://purl.bioontology.org/ontology/NCBITAXON/7165",
+				"Zebra fish":"http://purl.bioontology.org/ontology/NCBITAXON/7955", "Danio rerio":"http://purl.bioontology.org/ontology/NCBITAXON/7955",
+				"Arabidopsis thaliana":"http://purl.bioontology.org/ontology/NCBITAXON/3702",
+				"Rice":"http://purl.bioontology.org/ontology/NCBITAXON/4530", "Oryza sativa":"http://purl.bioontology.org/ontology/NCBITAXON/4530",
+				"Sea Squirt":"http://purl.bioontology.org/ontology/NCBITAXON/7719", "Ciona intestinalis":"http://purl.bioontology.org/ontology/NCBITAXON/7719",
+				"Barley":"http://purl.bioontology.org/ontology/NCBITAXON/4513", "Hordeum vulgare":"http://purl.bioontology.org/ontology/NCBITAXON/4513",
+				"Frog":"http://purl.bioontology.org/ontology/NCBITAXON/8364", "Xenopus tropicalis":"http://purl.bioontology.org/ontology/NCBITAXON/8364",
+				"Soybean":"http://purl.bioontology.org/ontology/NCBITAXON/3847", "Glycine max":"http://purl.bioontology.org/ontology/NCBITAXON/3847",
+				"Fruit fly":"http://purl.bioontology.org/ontology/NCBITAXON/7227", "Drosophila melanogaster":"http://purl.bioontology.org/ontology/NCBITAXON/7227",
+				"Horse":"http://purl.bioontology.org/ontology/NCBITAXON/9796", "Equus caballus":"http://purl.bioontology.org/ontology/NCBITAXON/9796",
+				"Rhesus Monkey":"http://purl.bioontology.org/ontology/NCBITAXON/9544", "Macaca mulatta":"http://purl.bioontology.org/ontology/NCBITAXON/9544",
+				"Wine Grape":"http://purl.bioontology.org/ontology/NCBITAXON/29760", "Vitis vinifera":"http://purl.bioontology.org/ontology/NCBITAXON/29760",
+				"Yeast":"http://purl.bioontology.org/ontology/NCBITAXON/4932", "Saccharomyces cerevisiae":"http://purl.bioontology.org/ontology/NCBITAXON/4932",
+				"Tomato":"http://purl.bioontology.org/ontology/NCBITAXON/4081", "Solanum lycopersicum":"http://purl.bioontology.org/ontology/NCBITAXON/4081",
+				"Rat":"http://purl.bioontology.org/ontology/NCBITAXON/10116", "Rattus norvegicus":"http://purl.bioontology.org/ontology/NCBITAXON/10116",
+				"Cow":"http://purl.bioontology.org/ontology/NCBITAXON/9913", "Bos taurus":"http://purl.bioontology.org/ontology/NCBITAXON/9913",
+				"Western Balsam Poplar":"http://purl.bioontology.org/ontology/NCBITAXON/3694", "Populus trichocarpa":"http://purl.bioontology.org/ontology/NCBITAXON/3694",
+				"Chimpanzee":"http://purl.bioontology.org/ontology/NCBITAXON/9598", "Pan troglodytes":"http://purl.bioontology.org/ontology/NCBITAXON/9598",
+				"Maize":"http://purl.bioontology.org/ontology/NCBITAXON/4577", "Zea mays":"http://purl.bioontology.org/ontology/NCBITAXON/4577",
+				"Pig":"http://purl.bioontology.org/ontology/NCBITAXON/9823", "Sus scrofa":"http://purl.bioontology.org/ontology/NCBITAXON/9823",
+				"Worm":"http://purl.bioontology.org/ontology/NCBITAXON/6239", "Caenorhabditis elegans":"http://purl.bioontology.org/ontology/NCBITAXON/6239",
+				"Platypus":"http://purl.bioontology.org/ontology/NCBITAXON/9258", "Ornithorhynchus anatinus":"http://purl.bioontology.org/ontology/NCBITAXON/9258",
+				"Chicken":"http://purl.bioontology.org/ontology/NCBITAXON/9031", "Gallus gallus":"http://purl.bioontology.org/ontology/NCBITAXON/9031",
+				"Fusarium graminearum":"http://purl.bioontology.org/ontology/NCBITAXON/5518", "Gibberella zeae":"http://purl.bioontology.org/ontology/NCBITAXON/5518",
+				"Bacillus subtilis":"http://purl.bioontology.org/ontology/NCBITAXON/1423",
+				"Escherichia coli":"http://purl.bioontology.org/ontology/NCBITAXON/562",
+				"Black mold":"http://purl.bioontology.org/ontology/NCBITAXON/5061", "Aspergillus niger":"http://purl.bioontology.org/ontology/NCBITAXON/5061",
+				"Mouse":"http://purl.bioontology.org/ontology/NCBITAXON/10090", "Mus musculus":"http://purl.bioontology.org/ontology/NCBITAXON/10090"
+}
+}
