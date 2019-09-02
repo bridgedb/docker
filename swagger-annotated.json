@@ -99,8 +99,8 @@
         }
         
 },
-"@context": {
-    "@vocab": "http://openrisknet.org/schema#",
+"x-orn-@context": {
+    "x-orn-@vocab": "http://openrisknet.org/schema#",
     "x-orn": "http://openrisknet.org/schema#",
     "x-orn-@id": "@id",
     "x-orn-@type":"@type",
