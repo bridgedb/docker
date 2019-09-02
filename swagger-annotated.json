@@ -1,6 +1,5 @@
 {
     "swagger": "2.0",
-    "x-orn:openapi": "2.0",
      "x-orn-@id": "https://bridgedb.prod.openrisknet.org",
     "x-orn-@type": "x-orn:Service",
     "info": {
