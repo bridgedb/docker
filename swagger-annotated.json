@@ -1,5 +1,10 @@
 {
     "swagger": "2.0",
+	"servers": [
+    {
+      "url": "http://bridgedb.prod.openrisknet.org/"
+    }
+  ],
      "x-orn-@id": "https://bridgedb.prod.openrisknet.org",
     "x-orn-@type": "x-orn:Service",
     "info": {
