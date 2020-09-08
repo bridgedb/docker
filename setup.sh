@@ -10,8 +10,8 @@ cd /opt/
 mkdir bridgedb/
 cd bridgedb/
 
-wget https://www.bridgedb.org/data/releases/bridgedb-2.3.3.tar.gz
-tar -xvzf bridgedb-2.3.3.tar.gz bridgedb-2.3.3
+wget https://www.bridgedb.org/data/releases/bridgedb-2.3.9.tar.gz
+tar -xvzf bridgedb-2.3.9.tar.gz bridgedb-2.3.9
 
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
@@ -33,5 +33,5 @@ wget -r -l1 --no-parent -A "*39.bridge" https://www.bridgedb.org/data/gene_datab
 #unzip *.zip
 
 cd /opt/bridgedb-databases/www.bridgedb.org/data/gene_database
-wget -c -O metabolites-20190829.bridge "https://ndownloader.figshare.com/files/17461802"
+wget -c -O metabolites-20200809.bridge "https://ndownloader.figshare.com/files/24180464"
 
