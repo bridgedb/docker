@@ -9,6 +9,4 @@
 # change to directory of this script
 cd $(dirname $0)
 
-pwd
-ls -al dist
 java -cp "dist/*" org.bridgedb.server.Server "$@"
