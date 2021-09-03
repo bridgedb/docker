@@ -10,17 +10,53 @@ cd /opt/
 mkdir bridgedb/
 cd bridgedb/
 
-wget https://www.bridgedb.org/data/releases/bridgedb-2.3.9.tar.gz
-tar -xvzf bridgedb-2.3.9.tar.gz bridgedb-2.3.9
+#wget https://github.com/bridgedb/BridgeDb/archive/refs/tags/release_3.0.5.zip
+#unzip release_3.0.5.zip
 
+mkdir -p bridgedb-3.0.5/dist
+
+cd bridgedb-3.0.5/dist
+
+#download JARs
+wget -O org.bridgedb.server-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.server/3.0.5/org.bridgedb.server-3.0.5.jar
+wget -O org.bridgedb.bio-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.bio/3.0.5/org.bridgedb.bio-3.0.5.jar
+wget -O org.bridgedb.rdb-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.rdb/3.0.5/org.bridgedb.rdb-3.0.5.jar
+wget -O org.bridgedb.webservice.bridgerest-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/webservice/org.bridgedb.webservice.bridgerest/3.0.5/org.bridgedb.webservice.bridgerest-3.0.5.jar
+wget -O org.bridgedb-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb/3.0.5/org.bridgedb-3.0.5.jar
+wget -O derbyclient-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derbyclient/10.14.2.0/derbyclient-10.14.2.0.jar
+wget -O derby-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+
+#dependencies
+wget -O commons-cli-1.2.jar https://search.maven.org/remotecontent?filepath=commons-cli/commons-cli/1.2/commons-cli-1.2.jar
+wget -O org.restlet.ext.servlet-2.0.15.jar http://maven.restlet.org/org/restlet/jee/org.restlet.ext.servlet/2.0.15/org.restlet.ext.servlet-2.0.15.jar
+wget -O org.restlet-2.0.15.jar http://maven.restlet.org/org/restlet/jee/org.restlet/2.0.15/org.restlet-2.0.15.jar
+
+cd ../../
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
 
 
-export ENSEMBLMAIN="91"
+wget -nc https://bridgedb.github.io/data/gene.json
+wget -nc https://bridgedb.github.io/data/corona.json
+wget -nc https://bridgedb.github.io/data/other.json
 
-wget -r -l1 --no-parent -A "*91.bridge" https://www.bridgedb.org/data/gene_database/
-wget -r -l1 --no-parent -A "*39.bridge" https://www.bridgedb.org/data/gene_database/
+jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' gene.json > files.txt
+jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
+jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' other.json >> files.txt
+
+for FILE in $(cat files.txt)
+do
+  readarray -d = -t splitFILE<<< "$FILE"
+  echo ${splitFILE[0]}
+  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
+done
+
+#export ENSEMBLMAIN="91"
+
+#wget -O Ec_Derby_Ensembl_91.bridge "https://zenodo.org/record/3667670/files/Ec_Derby_Ensembl_91.bridge"
+#wget -r "https://zenodo.org/record/3667670/files/Rn_Derby_Ensembl_91.bridge" https://www.bridgedb.org/data/gene_database/
+#wget -r "https://zenodo.org/record/3667670/files/Mm_Derby_Ensembl_91.bridge" https://www.bridgedb.org/data/gene_database/
+#wget -r -l1 --no-parent -A "*39.bridge"
 
 #wget -r -l1 --no-parent -A "Hs_Derby_Ensembl_${ENSEMBLMAIN}.bridge" https://www.bridgedb.org/data/gene_database/
 #wget -r -l1 --no-parent -A "Mm_Derby_Ensembl_${ENSEMBLMAIN}.bridge" https://www.bridgedb.org/data/gene_database/
@@ -32,6 +68,6 @@ wget -r -l1 --no-parent -A "*39.bridge" https://www.bridgedb.org/data/gene_datab
 #cd /opt/bridgedb-databases/bridgedb.org/data/gene_database/
 #unzip *.zip
 
-cd /opt/bridgedb-databases/www.bridgedb.org/data/gene_database
-wget -c -O metabolites-20200809.bridge "https://ndownloader.figshare.com/files/24180464"
+#cd /opt/bridgedb-databases/www.bridgedb.org/data/gene_database
+#wget -c -O metabolites-20200809.bridge "https://ndownloader.figshare.com/files/24180464"
 
