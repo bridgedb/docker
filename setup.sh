@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export BRIDGEDBVERSION="3.0.6"
+
 #apt-get update
 
 #apt-get -y install wget
@@ -13,16 +15,16 @@ cd bridgedb/
 #wget https://github.com/bridgedb/BridgeDb/archive/refs/tags/release_3.0.5.zip
 #unzip release_3.0.5.zip
 
-mkdir -p bridgedb-3.0.5/dist
+mkdir -p bridgedb-${BRIDGEDBVERSION}/dist
 
-cd bridgedb-3.0.5/dist
+cd bridgedb-${BRIDGEDBVERSION}/dist
 
 #download JARs
-wget -O org.bridgedb.server-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.server/3.0.5/org.bridgedb.server-3.0.5.jar
-wget -O org.bridgedb.bio-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.bio/3.0.5/org.bridgedb.bio-3.0.5.jar
-wget -O org.bridgedb.rdb-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.rdb/3.0.5/org.bridgedb.rdb-3.0.5.jar
-wget -O org.bridgedb.webservice.bridgerest-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/webservice/org.bridgedb.webservice.bridgerest/3.0.5/org.bridgedb.webservice.bridgerest-3.0.5.jar
-wget -O org.bridgedb-3.0.5.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb/3.0.5/org.bridgedb-3.0.5.jar
+wget -O org.bridgedb.server-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.server/${BRIDGEDBVERSION}/org.bridgedb.server-${BRIDGEDBVERSION}.jar
+wget -O org.bridgedb.bio-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.bio/${BRIDGEDBVERSION}/org.bridgedb.bio-${BRIDGEDBVERSION}.jar
+wget -O org.bridgedb.rdb-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.rdb/${BRIDGEDBVERSION}/org.bridgedb.rdb-${BRIDGEDBVERSION}.jar
+wget -O org.bridgedb.webservice.bridgerest-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/webservice/org.bridgedb.webservice.bridgerest/${BRIDGEDBVERSION}/org.bridgedb.webservice.bridgerest-${BRIDGEDBVERSION}.jar
+wget -O org.bridgedb-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb/${BRIDGEDBVERSION}/org.bridgedb-${BRIDGEDBVERSION}.jar
 wget -O derbyclient-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derbyclient/10.14.2.0/derbyclient-10.14.2.0.jar
 wget -O derby-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 
