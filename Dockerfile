@@ -3,6 +3,8 @@ FROM openjdk:8-jdk
 MAINTAINER BiGCaT
 
 ENV PORT 8080
+#ARG bridgedbversion="3.0.13"
+
 
 RUN apt-get update
 RUN apt-get install apache2 -y
@@ -12,10 +14,10 @@ COPY setup.sh /
 RUN chmod +x setup.sh
 RUN /setup.sh
 
-COPY gdb.config /opt/bridgedb/bridgedb-3.0.5/
-COPY startup.sh /opt/bridgedb/bridgedb-3.0.5/
+#COPY gdb.config /opt/bridgedb/bridgedb-3.0.13/
+COPY startup.sh /opt/bridgedb/bridgedb-3.0.13/
 
-RUN chmod +x /opt/bridgedb/bridgedb-3.0.5/startup.sh
+RUN chmod +x /opt/bridgedb/bridgedb-3.0.13/startup.sh
 
 
 COPY ports.conf /etc/apache2
@@ -43,5 +45,5 @@ COPY swagger.json /var/www/html/swagger/
 
 EXPOSE 8183 8080
 
-ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb-3.0.5/startup.sh
+ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb-3.0.13/startup.sh -f /opt/bridgedb-databases/gdb.config
 CMD ["-D", "FOREGROUND"]

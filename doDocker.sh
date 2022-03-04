@@ -3,7 +3,7 @@
 
 sudo docker build --no-cache -t "d" .
 #docker build -t p .
-sudo docker tag d bigcatum/bridgedb:2.3.9
+sudo docker tag d bigcatum/bridgedb:3.0.13
 
 #sudo docker tag -f p dtlfair/search
-sudo docker push bigcatum/bridgedb:2.3.9
+sudo docker push bigcatum/bridgedb:3.0.13

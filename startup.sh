@@ -9,4 +9,4 @@
 # change to directory of this script
 cd $(dirname $0)
 
-java -cp "dist/*" org.bridgedb.server.Server "$@"
+java -cp "dist/*" org.bridgedb.server.Server "$@" > bridgedb.log
