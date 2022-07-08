@@ -5,7 +5,7 @@
 #apt-get -y install wget
 #apt-get -y install zip unzip
 #whoami
-export BRIDGEDBVERSION="3.0.13"
+export BRIDGEDBVERSION="3.0.14"
 
 cd /opt/
 mkdir bridgedb/
@@ -19,6 +19,9 @@ mkdir -p bridgedb-${BRIDGEDBVERSION}/dist
 cd bridgedb-${BRIDGEDBVERSION}/dist
 
 
+
+#download single JAR (replaces JARs and dependencies)
+#wget -O org.bridgedb.server-${BRIDGEDBVERSION}.jar https://github.com/bridgedb/bridgedb-webservice/releases/download/release_3.0.14/bridgedbServer.jar
 
 #download JARs
 wget -O org.bridgedb.server-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.server/${BRIDGEDBVERSION}/org.bridgedb.server-${BRIDGEDBVERSION}.jar
