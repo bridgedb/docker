@@ -19,7 +19,7 @@
                     {
                         "name": "dataSource",
                         "in": "query",
-                        "description": "(Optional) Restrict results by data source [system code](http://vocabularies.bridgedb.org/#systemCode)",
+                        "description": "(Optional) Restrict results by data source [system code](https://bridgedb.github.io/pages/system-codes.html)",
                         "required": false,
                         "type": "string",
 			"enum": ["En","Cs","X","E","Rh","Ck","Eco","Cg","Ch","Il","Uc","Rf","Pd","U","Ma","Lm","Wd","Wi","Cpc","Mb","Rk","Ce","S","L","Wg","Om","T","Mc","Ik","H", "Re", "Ag", "Q", "Ca", "Up","Cks"]
