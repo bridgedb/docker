@@ -1,5 +1,6 @@
 [![docker stars](https://img.shields.io/docker/stars/bigcatum/bridgedb.svg?style=flat-square)](https://hub.docker.com/r/bigcatum/bridgedb)
 [![docker pulls](https://img.shields.io/docker/pulls/bigcatum/bridgedb.svg?style=flat-square)](https://hub.docker.com/r/bigcatum/bridgedb)
+[![ci](https://github.com/bridgedb/docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/bridgedb/docker/actions/workflows/docker-image.yml)
 
 # Welcome to the BridgeDb Docker repository!
 
