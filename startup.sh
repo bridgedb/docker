@@ -9,6 +9,7 @@ cd $(dirname $0)
 # change to directory of this script
 
 pwd
+apt install nmap -y
+nmap localhost
 ls -al dist
-java -jar dist/bridgedb-webservice-2.0.1.jar
-java -cp "dist/*" org.bridgedb.server.Server "$@" > bridgedb.log
+java -jar dist/bridgedb-webservice-2.0.2.jar 8183 > bridgedb.log
