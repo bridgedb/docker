@@ -27,3 +27,4 @@ jobs:
         with:
           push: true
           tags: bigcatum/bridgedb:latest
+
