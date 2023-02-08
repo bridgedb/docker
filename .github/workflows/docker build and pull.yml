@@ -2,9 +2,8 @@ name: ci
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - 'main'
 
 jobs:
   docker:
@@ -28,4 +27,3 @@ jobs:
         with:
           push: true
           tags: bigcatum/bridgedb:latest
-
