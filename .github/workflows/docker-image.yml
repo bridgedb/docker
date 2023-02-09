@@ -43,12 +43,13 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:latest
+          tags: bigcatum/bridgedb
+          labels: ${{ steps.meta.outputs.labels }}
       -
         name: Build and push latest
         uses: docker/build-push-action@v4
         with:
           push: true
           tags: bigcatum/bridgedb
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: latest
 
