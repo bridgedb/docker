@@ -1,6 +1,6 @@
 #!/bin/bash
 #apt-get update
-#
+##
 #apt-get -y install wget
 #apt-get -y install zip unzip
 #whoami
