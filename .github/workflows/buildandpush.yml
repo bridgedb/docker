@@ -31,15 +31,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: bigcatum/bridgedb:latest
+        name: Retrieve version name
+        run: |
+            echo "version_name=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:3.0.14
+          tags: bigcatum/bridgedb:${{ env.version_name }}
 
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: bigcatum/bridgedb:latest
