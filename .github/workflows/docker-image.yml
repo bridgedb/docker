@@ -31,25 +31,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: name/app
-          tags: |
-            type=raw,value={{date 'YYYYMMDD'}}
-      -
-        name: Build and push version
+        name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: bigcatum/bridgedb:latest
       -
-        name: Build and push latest
+        name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb
-          labels: latest
+          tags: bigcatum/bridgedb:3.0.14
 
