@@ -7,6 +7,7 @@ on:
      - 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
+     - '.github'
   pull_request:
     branches: [ "master" ]
     paths:
@@ -39,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:${{ env.version_name }}
+          tags: bigcatum/bridgedb:"${{ env.version_name }}"
 
       -
         name: Build and push
