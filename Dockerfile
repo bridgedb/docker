@@ -12,13 +12,10 @@ COPY setup.sh /
 RUN chmod +x setup.sh
 RUN /setup.sh
 
-#The line below is still required. Needs to be fixed with automatic generation of gdb file
-#COPY gdb.config /opt/bridgedb/bridgedb-3.0.14/
 COPY startup.sh /opt/bridgedb/bridgedb-3.0.14/
-#COPY Hs_Derby_Ensembl_105.bridge /opt/bridgedb-databases/
 
 #next line for local testing. TODO- add automatic download
-COPY bridgedb-webservice-2.0.2.jar /opt/bridgedb/bridgedb-3.0.14/dist/
+COPY bridgedb-webservice-2.0.4.jar /opt/bridgedb/bridgedb-3.0.14/dist/
 
 RUN chmod +x /opt/bridgedb/bridgedb-3.0.14/startup.sh
 
