@@ -39,13 +39,13 @@ jobs:
         env:
             BDBVERSION: grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2
         run: |
-            echo "version name is: ${{ BDBVERSION }}"
+            echo "version name is: ${{ env.BDBVERSION }}"
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:"${{ env.version_name }}"
+          tags: bigcatum/bridgedb:"${{ env.BDBVERSION }}"
 
       -
         name: Build and push
