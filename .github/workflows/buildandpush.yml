@@ -1,6 +1,8 @@
 name: Docker build
 
 on:
+  repository_dispatch:
+    types: [update-event]
   workflow_dispatch:
   push:
     branches: [ "master" ]
