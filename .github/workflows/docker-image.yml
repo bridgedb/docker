@@ -3,6 +3,10 @@ name: ci
 on:
   push:
     branches: [ "master" ]
+    paths:
+     - 'setup.sh'
+     - 'startup.sh'
+     - 'Dockerfile'
   pull_request:
     branches: [ "master" ]
     paths:
@@ -31,5 +35,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:${{ vars.MY_VARIABLE }}
+          tags: bigcatum/bridgedb:${{ vars.bridgedbversion }}
 
