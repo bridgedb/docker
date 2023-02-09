@@ -36,14 +36,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Retrieve version name
+        env:
+            BDBVERSION: grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2
         run: |
-            echo "version_name=$(grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2"
-            export version_name=`grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2`
-            echo "version name is: ${{ env.version_name }}"
-            echo "version name is: ${{ version_name }}"
-            export env.version_name=`grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2`
-            echo "version name is: ${{ env.version_name }}"
-            echo "version name is: ${{ version_name }}"
+            echo "version name is: ${{ BDBVERSION }}"
       -
         name: Build and push
         uses: docker/build-push-action@v4
