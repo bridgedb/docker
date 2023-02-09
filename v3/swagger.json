@@ -3,7 +3,7 @@ info:
   version: 1.0.1
   title: bridgedb webservices
 servers:
-- url: http://localhost:8183
+- url: SERVER_URL
 paths:
   /{organism}/xrefs/{systemCode}/{identifier}:
     get:
