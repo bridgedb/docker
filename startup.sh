@@ -13,4 +13,4 @@ apt install nmap -y
 nmap localhost
 ls -al dist
 sed -i "s|SERVER_URL|$SERVER_URL|" /var/www/html/swagger/swagger.json
-java -jar dist/bridgedb-webservice-2.0.2.jar 8183 > bridgedb.log
+java -jar dist/bridgedb-webservice-2.0.4.jar 8183 > bridgedb.log
