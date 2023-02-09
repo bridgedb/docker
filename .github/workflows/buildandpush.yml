@@ -1,13 +1,13 @@
 name: Docker build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
     paths:
      - 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
-     - '.github'
   pull_request:
     branches: [ "master" ]
     paths:
@@ -35,6 +35,7 @@ jobs:
         name: Retrieve version name
         run: |
             echo "version_name=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
+            echo "${{ env.version_name }}"
       -
         name: Build and push
         uses: docker/build-push-action@v4
