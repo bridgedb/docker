@@ -1,6 +1,7 @@
 name: Docker build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
     paths:
@@ -19,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -31,15 +35,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: bigcatum/bridgedb:latest
+        name: Retrieve version name
+        run: |
+            echo "BDBVERSION=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
+            
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:3.0.14
+          tags: bigcatum/bridgedb:${{ env.BDBVERSION }}
 
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: bigcatum/bridgedb:latest
