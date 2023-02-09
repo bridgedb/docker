@@ -36,9 +36,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Retrieve version name
-        env:
-            BDBVERSION: grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2
         run: |
+            echo "BDBVERSION=`grep 'export BRIDGEDBVERSION' setup.sh | cut -d'\"') -f2`" >> $GITHUB_ENV
             echo "version name is: ${{ env.BDBVERSION }}"
       -
         name: Build and push
