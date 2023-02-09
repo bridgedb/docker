@@ -35,7 +35,7 @@ jobs:
         name: Retrieve version name
         run: |
             echo "version_name=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
-            echo "${{ env.version_name }}"
+            echo "version name is: ${{ env.version_name }}"
       -
         name: Build and push
         uses: docker/build-push-action@v4
