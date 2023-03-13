@@ -49,7 +49,7 @@ jobs:
             
       - name: Update setup.sh with BDBWSVERSION
         run: |
-            cat setup.sh | sed 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBVERSION="${{ env.BDBWSVERSION }}"|g' > setup.sh
+            cat setup.sh | sed 's|BDBVERSION=".\+"|BRIDGEDBVERSION="${{ env.BDBWSVERSION }}"|g' > setup.sh
       
 #      - name: Echo new BDBVERSION (debug)
 #        run: |
