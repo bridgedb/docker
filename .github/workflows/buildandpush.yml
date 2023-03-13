@@ -43,7 +43,7 @@ jobs:
       -
         name: Retrieve WebService version name
         run: |
-            echo "BDBWSVERSION=$(echo ${{ github.event.client_payload.BDBWSVERSION }}"  >> $GITHUB_ENV
+            echo "BDBWSVERSION=$(echo ${{ github.event.client_payload.BDBWSVERSION }})"  >> $GITHUB_ENV
             echo New release tag: ${{ env.BDBWSVERSION }}
       - name: Update setup.sh with BDBWSVERSION
         run: |
