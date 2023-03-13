@@ -66,4 +66,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb
+          tags: bigcatum/bridgedb:latest
