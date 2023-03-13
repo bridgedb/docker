@@ -39,7 +39,7 @@ jobs:
       -
         name: Retrieve JAR version name
         run: |
-            echo "BDBVERSION=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
+            echo "BDBVERSION=$(echo ${{ github.event.client_payload.BDBVERSION }})"  >> $GITHUB_ENV
       -
         name: Retrieve WebService version name
         run: |
@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:${{ env.BDBWSVERSION }}
+          tags: bigcatum/bridgedb:${{ env.BDBVERSION }}
 
       -
         name: Build and push
