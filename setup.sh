@@ -6,14 +6,12 @@
 #whoami
 export BRIDGEDBWSVERSION="2.1.0"
 
+cd /opt/
+mkdir -p bridgedb/bridgedb/
+
 wget -O /opt/bridgedb/bridgedb/BridgeDb-Webservice.jar https://github.com/bridgedb/BridgeDbWebservice/releases/download/${BRIDGEDBWSVERSION}/BridgeDbWebservice-${BRIDGEDBWSVERSION}-jar-with-dependencies.jar
 
-cd /opt/
-mkdir bridgedb/
-cd bridgedb/
-
-
-cd ../../
+cd /
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
 

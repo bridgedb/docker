@@ -14,9 +14,6 @@ RUN /setup.sh
 
 COPY startup.sh /opt/bridgedb/bridgedb/
 
-#next line for local testing. TODO- add automatic download
-COPY BridgeDb-Webservice.jar /opt/bridgedb/bridgedb/dist/
-
 RUN chmod +x /opt/bridgedb/bridgedb/startup.sh
 
 
