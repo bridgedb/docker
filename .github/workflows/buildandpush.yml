@@ -39,11 +39,13 @@ jobs:
       -
         name: Retrieve JAR version name
         run: |
-            echo "BDBVERSION=$(echo ${{ github.event.client_payload.BDBVERSION }})"  >> $GITHUB_ENV
+            wget https://raw.githubusercontent.com/bridgedb/bridgedb-webservice/main/pom.xml
+            echo "BDBVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<bridgedb-version>).*" | sed 's|</bridgedb-version>||g')" >> $GITHUB_ENV 
       -
         name: Retrieve WebService version name
         run: |
-            echo "BDBWSVERSION=$(echo ${{ github.event.client_payload.BDBWSVERSION }})"  >> $GITHUB_ENV
+            wget https://raw.githubusercontent.com/bridgedb/bridgedb-webservice/main/pom.xml 
+            echo "BDBWSVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<version>).*" | sed 's|</version>||g')" >> $GITHUB_ENV 
             
       - name: Update setup.sh with BDBWSVERSION
         run: |
