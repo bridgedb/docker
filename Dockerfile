@@ -12,12 +12,9 @@ COPY setup.sh /
 RUN chmod +x setup.sh
 RUN /setup.sh
 
-COPY startup.sh /opt/bridgedb/bridgedb-3.0.14/
+COPY startup.sh /opt/bridgedb/bridgedb/
 
-#next line for local testing. TODO- add automatic download
-COPY bridgedb-webservice-2.0.4.jar /opt/bridgedb/bridgedb-3.0.14/dist/
-
-RUN chmod +x /opt/bridgedb/bridgedb-3.0.14/startup.sh
+RUN chmod +x /opt/bridgedb/bridgedb/startup.sh
 
 
 COPY ports.conf /etc/apache2
@@ -43,5 +40,5 @@ COPY bridgedb.png /var/www/html/swagger/
 
 EXPOSE 8183 8080
 
-ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb-3.0.14/startup.sh -f /opt/bridgedb-databases/gdb.config
+ENTRYPOINT service apache2 start && /opt/bridgedb/bridgedb/startup.sh -f /opt/bridgedb-databases/gdb.config
 CMD ["-D", "FOREGROUND"]
