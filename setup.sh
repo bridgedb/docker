@@ -4,37 +4,14 @@
 #apt-get -y install wget
 #apt-get -y install zip unzip
 #whoami
-export BRIDGEDBVERSION="3.0.14"
+export BRIDGEDBWSVERSION="2.1.0"
+
+wget -O /opt/bridgedb/bridgedb/BridgeDb-Webservice.jar https://github.com/bridgedb/BridgeDbWebservice/releases/download/${BRIDGEDBWSVERSION}/BridgeDbWebservice-${BRIDGEDBWSVERSION}-jar-with-dependencies.jar
 
 cd /opt/
 mkdir bridgedb/
 cd bridgedb/
 
-#wget https://github.com/bridgedb/BridgeDb/archive/refs/tags/release_3.0.5.zip
-#unzip release_3.0.5.zip
-
-mkdir -p bridgedb-${BRIDGEDBVERSION}/dist
-
-cd bridgedb-${BRIDGEDBVERSION}/dist
-
-
-
-#download single JAR (replaces JARs and dependencies)
-#wget -O org.bridgedb.server-${BRIDGEDBVERSION}.jar https://github.com/bridgedb/bridgedb-webservice/releases/download/release_3.0.14/bridgedbServer.jar
-
-#download JARs
-#wget -O org.bridgedb.server-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.server/${BRIDGEDBVERSION}/org.bridgedb.server-${BRIDGEDBVERSION}.jar
-#wget -O org.bridgedb.bio-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.bio/${BRIDGEDBVERSION}/org.bridgedb.bio-${BRIDGEDBVERSION}.jar
-#wget -O org.bridgedb.rdb-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb.rdb/${BRIDGEDBVERSION}/org.bridgedb.rdb-${BRIDGEDBVERSION}.jar
-#wget -O org.bridgedb.webservice.bridgerest-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/webservice/org.bridgedb.webservice.bridgerest/${BRIDGEDBVERSION}/org.bridgedb.webservice.bridgerest-${BRIDGEDBVERSION}.jar
-#wget -O org.bridgedb-${BRIDGEDBVERSION}.jar https://search.maven.org/remotecontent?filepath=org/bridgedb/org.bridgedb/${BRIDGEDBVERSION}/org.bridgedb-${BRIDGEDBVERSION}.jar
-#wget -O derbyclient-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derbyclient/10.14.2.0/derbyclient-10.14.2.0.jar
-#wget -O derby-10.14.2.0.jar https://search.maven.org/remotecontent?filepath=org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
-
-#dependencies
-#wget -O commons-cli-1.2.jar https://search.maven.org/remotecontent?filepath=commons-cli/commons-cli/1.2/commons-cli-1.2.jar
-#wget -O org.restlet.ext.servlet-2.0.15.jar http://maven.restlet.org/org/restlet/jee/org.restlet.ext.servlet/2.0.15/org.restlet.ext.servlet-2.0.15.jar
-#wget -O org.restlet-2.0.15.jar http://maven.restlet.org/org/restlet/jee/org.restlet/2.0.15/org.restlet-2.0.15.jar
 
 cd ../../
 mkdir /opt/bridgedb-databases/
@@ -66,7 +43,7 @@ do
 done
 
 sed -i -e 's/\t/\t\/opt\/bridgedb-databases\//g' gdb.config
-cp gdb.config /opt/bridgedb/bridgedb-3.0.14/
+cp gdb.config /opt/bridgedb/bridgedb/
 
 
 
