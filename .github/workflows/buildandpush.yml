@@ -37,16 +37,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Retrieve version name
+        name: Retrieve JAR version name
         run: |
             echo "BDBVERSION=$(grep 'export BRIDGEDBVERSION' setup.sh | sed 's|export BRIDGEDBVERSION="||g' | sed 's|\"||g')" >> $GITHUB_ENV
+      -
+        name: Retrieve WebService version name
+        run: |
+            echo "BDBWSVERSION=$(echo ${{ github.event.client_payload.version }})"  >> $GITHUB_ENV
+      - name: Update setup.sh with BDBWSVERSION
+        run: |
+            cat setup.sh | sed 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBVERSION="${{ env.BDBWSVERSION }}"|g' > setup.sh
             
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: bigcatum/bridgedb:${{ env.BDBVERSION }}
+          tags: bigcatum/bridgedb:${{ env.BDBWSVERSION }}
 
       -
         name: Build and push
