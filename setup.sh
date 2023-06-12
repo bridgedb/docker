@@ -4,7 +4,7 @@
 #apt-get -y install wget
 #apt-get -y install zip unzip
 #whoami
-export BRIDGEDBWSVERSION="2.1.0"
+export BRIDGEDBWSVERSION="2.1.4"
 
 cd /opt/
 mkdir -p bridgedb/bridgedb/
