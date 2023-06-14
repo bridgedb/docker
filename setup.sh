@@ -4,6 +4,11 @@
 #apt-get -y install wget
 #apt-get -y install zip unzip
 #whoami
+
+#IMPORTANT
+#This line is updated at every run of https://github.com/bridgedb/docker/blob/master/.github/workflows/buildandpush.yml substituting the
+#bridgedbwsversion with the one declared in the bridgedbwservice pom (https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml).
+#The changes are NOT committed and pushed, but are effective when running setup.sh in the action.
 export BRIDGEDBWSVERSION="2.1.4"
 
 cd /opt/
