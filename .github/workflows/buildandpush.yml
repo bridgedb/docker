@@ -45,7 +45,7 @@ jobs:
         name: Retrieve WebService version name
         run: |
             wget https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
-            echo "BDBWSVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<version>).*" | sed 's|</version>||g')" >> $GITHUB_ENV 
+            echo "BRIDGEDBWSVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<version>).*" | sed 's|</version>||g')" >> $GITHUB_ENV 
             
       - name: Update setup.sh with BDBWSVERSION
         run: |
