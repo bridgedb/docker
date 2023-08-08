@@ -29,9 +29,9 @@ cat gene.json.config >> gdb.config
 cat corona.json.config >> gdb.config
 cat other.json.config >> gdb.config
 
-jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
-jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
-jq -r '.mappingFiles | .[] | "\(.file)=\(.downloadURL)"' other.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' other.json >> files.txt
 
 for FILE in $(cat files.txt)
 do
