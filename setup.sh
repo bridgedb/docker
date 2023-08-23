@@ -21,32 +21,32 @@ mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
 
 
-#get bridgedb databases
-wget -nc https://bridgedb.github.io/data/gene.json
-wget -nc https://bridgedb.github.io/data/corona.json
-wget -nc https://bridgedb.github.io/data/other.json
+#get bridgedb databases --> comment out all lines below if testing locally on small scale, with a direct COPY of the .bridge file
+#wget -nc https://bridgedb.github.io/data/gene.json
+#wget -nc https://bridgedb.github.io/data/corona.json
+#wget -nc https://bridgedb.github.io/data/other.json
 
-wget -nc https://bridgedb.github.io/data/gene.json.config
-wget -nc https://bridgedb.github.io/data/corona.json.config
-wget -nc https://bridgedb.github.io/data/other.json.config
+#wget -nc https://bridgedb.github.io/data/gene.json.config
+#wget -nc https://bridgedb.github.io/data/corona.json.config
+#wget -nc https://bridgedb.github.io/data/other.json.config
 
-cat gene.json.config >> gdb.config
-cat corona.json.config >> gdb.config
-cat other.json.config >> gdb.config
+#cat gene.json.config >> gdb.config
+#cat corona.json.config >> gdb.config
+#cat other.json.config >> gdb.config
 
-jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
-jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
-jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' other.json >> files.txt
+#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
+#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
+#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' other.json >> files.txt
 
-for FILE in $(cat files.txt)
-do
-  readarray -d = -t splitFILE<<< "$FILE"
-  echo ${splitFILE[0]}
-  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
-done
+#for FILE in $(cat files.txt)
+#do
+#  readarray -d = -t splitFILE<<< "$FILE"
+#  echo ${splitFILE[0]}
+#  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
+#done
 
-sed -i -e 's/\t/\t\/opt\/bridgedb-databases\//g' gdb.config
-cp gdb.config /opt/bridgedb/bridgedb/
+#sed -i -e 's/\t/\t\/opt\/bridgedb-databases\//g' gdb.config
+#cp gdb.config /opt/bridgedb/bridgedb/
 
 
 
