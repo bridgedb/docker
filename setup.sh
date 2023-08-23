@@ -20,8 +20,20 @@ cd /
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
 
+#BRIDGEDB DATABASES
+#Option 1A: Get bridgedb databases MANUALLY + new download. 
+#If .bridge files are not yet downloaded: For each one, also add line in gdb.config. The Dockerfile should also include the line that copies the gdb.config file.
+wget https://zenodo.org/record/7781913/files/Hs_Derby_Ensembl_108.bridge
+#COPY gdb.config /opt/bridgedb/bridgedb/
 
-#get bridgedb databases --> comment out all lines below if testing locally on small scale, with a direct COPY of the .bridge file
+#Option 1B: Get bridgedb databases MANUALLY without new download.
+#If .bridge file already downloaded and stored in the same folder as the Dockerfile, add the following line into the Dockerfile right after the line to run the setup.sh file, for each bridgedb database. This should be followed by the line that copies the gdb.config file.
+#COPY Hs_Derby_Ensembl_108.bridge /opt/bridgedb-databases/
+#COPY gdb.config /opt/bridgedb/bridgedb/
+
+#Option 2: Get all bridgedb databases AUTOMATICALLY. 
+#Comment out all lines below if testing locally on small scale, with a direct COPY of the .bridge file
+
 #wget -nc https://bridgedb.github.io/data/gene.json
 #wget -nc https://bridgedb.github.io/data/corona.json
 #wget -nc https://bridgedb.github.io/data/other.json

@@ -12,17 +12,12 @@ COPY setup.sh /
 RUN chmod +x setup.sh
 RUN /setup.sh
 
-#The line is normally commented out. For local, small scale testing, it can be used. This would require the COPY of the .bridge file, and commenting out all lines related to the creation of gbd.config in the setup.sh script.
+#The following 2 lines are normally commented out. For local, small scale testing, they can be used (see setup.sh for explanations). This would require the COPY of the .bridge file, and commenting out all lines related to the automated creation of gbd.config in the setup.sh script.
+#COPY Hs_Derby_Ensembl_108.bridge /opt/bridgedb-databases/
 COPY gdb.config /opt/bridgedb/bridgedb/
 
 COPY startup.sh /opt/bridgedb/bridgedb/
 RUN chmod +x /opt/bridgedb/bridgedb/startup.sh
-
-#Comment out the 3 line below if gdb.config is created automatically.
-RUN wget https://zenodo.org/record/7781913/files/Hs_Derby_Ensembl_108.bridge
-RUN mv Hs_Derby_Ensembl_108.bridge /opt/bridgedb-databases/
-#If derby file is outside container, use the following line
-#COPY Hs_Derby_Ensembl_108.bridge /opt/bridgedb-databases/
 
 COPY ports.conf /etc/apache2
 COPY 000-default.conf /etc/apache2/sites-enabled/
