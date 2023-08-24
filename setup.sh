@@ -23,7 +23,7 @@ cd /opt/bridgedb-databases/
 #BRIDGEDB DATABASES
 #Option 1A: Get bridgedb databases MANUALLY + new download. 
 #If .bridge files are not yet downloaded: For each one, also add line in gdb.config. The Dockerfile should also include the line that copies the gdb.config file.
-wget https://zenodo.org/record/7781913/files/Hs_Derby_Ensembl_108.bridge
+#wget https://zenodo.org/record/7781913/files/Hs_Derby_Ensembl_108.bridge
 #COPY gdb.config /opt/bridgedb/bridgedb/
 
 #Option 1B: Get bridgedb databases MANUALLY without new download.
@@ -34,31 +34,31 @@ wget https://zenodo.org/record/7781913/files/Hs_Derby_Ensembl_108.bridge
 #Option 2: Get all bridgedb databases AUTOMATICALLY. 
 #Comment out all lines below if testing locally on small scale, with a direct COPY of the .bridge file
 
-#wget -nc https://bridgedb.github.io/data/gene.json
-#wget -nc https://bridgedb.github.io/data/corona.json
-#wget -nc https://bridgedb.github.io/data/other.json
+wget -nc https://bridgedb.github.io/data/gene.json
+wget -nc https://bridgedb.github.io/data/corona.json
+wget -nc https://bridgedb.github.io/data/other.json
 
-#wget -nc https://bridgedb.github.io/data/gene.json.config
-#wget -nc https://bridgedb.github.io/data/corona.json.config
-#wget -nc https://bridgedb.github.io/data/other.json.config
+wget -nc https://bridgedb.github.io/data/gene.json.config
+wget -nc https://bridgedb.github.io/data/corona.json.config
+wget -nc https://bridgedb.github.io/data/other.json.config
 
-#cat gene.json.config >> gdb.config
-#cat corona.json.config >> gdb.config
-#cat other.json.config >> gdb.config
+cat gene.json.config >> gdb.config
+cat corona.json.config >> gdb.config
+cat other.json.config >> gdb.config
 
-#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
-#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
-#jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' other.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' gene.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' corona.json >> files.txt
+jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) | "\(.file)=\(.downloadURL)"' other.json >> files.txt
 
-#for FILE in $(cat files.txt)
-#do
-#  readarray -d = -t splitFILE<<< "$FILE"
-#  echo ${splitFILE[0]}
-#  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
-#done
+for FILE in $(cat files.txt)
+do
+  readarray -d = -t splitFILE<<< "$FILE"
+  echo ${splitFILE[0]}
+  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
+done
 
-#sed -i -e 's/\t/\t\/opt\/bridgedb-databases\//g' gdb.config
-#cp gdb.config /opt/bridgedb/bridgedb/
+sed -i -e 's/\t/\t\/opt\/bridgedb-databases\//g' gdb.config
+cp gdb.config /opt/bridgedb/bridgedb/
 
 
 
