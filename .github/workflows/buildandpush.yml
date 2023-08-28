@@ -63,9 +63,9 @@ jobs:
           push: true
           tags: bigcatum/bridgedb:${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}
 
-#      -
-#        name: Build and push
-#        uses: docker/build-push-action@v4
-#        with:
-#          push: true
-#          tags: bigcatum/bridgedb:latest
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: bigcatum/bridgedb:latest
