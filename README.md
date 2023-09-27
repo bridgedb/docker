@@ -42,7 +42,7 @@ sudo docker run --name bridgedb --rm -p [PORT1]:8183 -p [PORT2]:8080 -e SERVER_U
 ```
 ## Opening the docker image in a browser
 
-To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, vollowed by ':8080/swagger/'. On Linux, the docker image can be entered by writing 'http://localhost:8080/swagger/' in the browser.
+To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, followed by ':8080/swagger/'. On Linux, the docker image can be entered by writing 'http://localhost:8080/swagger/' in the browser.
 
 ## Stopping the running container
 
