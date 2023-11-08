@@ -9,8 +9,4 @@ cd $(dirname $0)
 # change to directory of this script
 
 pwd
-apt install nmap -y
-nmap localhost
-
-sed -i "s|SERVER_URL|$SERVER_URL|" /var/www/html/swagger/swagger.json
-java -jar BridgeDb-Webservice.jar 8183 > bridgedb.log
+java -jar BridgeDb-Webservice.jar 8183 true $SERVER_URL > bridgedb.log
