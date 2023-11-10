@@ -20,7 +20,7 @@ To pull a BridgeDb Docker Image with a specific version, use the following comma
 ```
 docker pull bigcatum/bridgedb:[tag]
 ```
-Depending on the version, the Docker Image will have a number of mapping datasets (.bridge files) included, which can cause a longer time to pull the docker Image. Currently, the main docker image consists of all available identifier mapping (.bridge) files.
+Currently, the main docker image consists of all available identifier mapping (.bridge) files. The tags of the Docker images describe the BridgeDb version and the version of the web service. For example, the Docker image of bigcatum/bridgedb:3.0.23-2.1.6 has the BridgeDb version os 3.0.23 and the webservice version of 2.1.6.
 
 To confirm that this step has worked and the Docker Image was pulled correctly, enter the following:
 ```
@@ -35,14 +35,14 @@ For windows users, it is necessary to know the IP adress of the VirtualBox envir
 ```
 docker-machine ip
 ```
-Below is the command for running the Docker Image. In the command, change [PORT1] and [PORT2] to configure ports that are not yet in use in your system. If the ports 8183 and 8080 are not yet in use, you can simply use those for [PORT1] and [PORT2] respectively. The environment variable [SERVER_URL] defines the host URL, depending on where the Docker Image will be run. If you do a local deployment, the [SERVER_URL] should be http://localhost, with the [PORT1] that you chose.
+Below is the command for running the Docker Image. In the command, change `[PORT1]` to configure ports that are not yet in use in your system. If the ports 8183 is not yet in use, you can simply use that one for `[PORT1]`. The environment variable `[SERVER_URL]` defines the host URL, depending on where the Docker Image will be run. If you do a local deployment, the `[SERVER_URL]` should be http://localhost, with the `[PORT1]` that you chose. The `[TAG]` corresponds to the version of the Docker image that you pulled.
 
 ```
-sudo docker run --name bridgedb --rm -p [PORT1]:8183 -p [PORT2]:8080 -e SERVER_URL='[SERVER_URL]:[PORT1]' bigcatum/bridgedb:latest
+sudo docker run --name bridgedb --rm -p [PORT1]:8183 -e SERVER_URL='[SERVER_URL]:[PORT1]' bigcatum/bridgedb:[TAG]
 ```
 ## Opening the docker image in a browser
 
-To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, followed by ':8080/swagger/'. On Linux, the docker image can be entered by writing 'http://localhost:8080/swagger/' in the browser.
+To enter the docker image in a browser, Windows users should enter the IP-adress of the VirtualBox, followed by ':[PORT1]'. On Linux, the docker image can be entered by writing 'http://localhost:[PORT1]' in the browser.
 
 ## Stopping the running container
 
