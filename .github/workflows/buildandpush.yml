@@ -7,18 +7,18 @@ on:
   push:
     branches: [ "master" ]
     paths:
-     - 'setup.sh'
+     #- 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
   pull_request:
     branches: [ "master" ]
     paths:
-     - 'setup.sh'
+     #- 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
 
 jobs:
-  docker:
+  update-version:
     runs-on: ubuntu-latest
     steps:
       -
@@ -51,18 +51,22 @@ jobs:
         run: |
             cat setup.sh | sed 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBWSVERSION="${{ env.BRIDGEDBWSVERSION }}"|g'  > setup.sh
       
-#      - name: Echo new BDBVERSION (debug)
-#        run: |
-#  
-#            echo New release tag: ${{ env.BDBWSVERSION }}
-                      
+      - name: commit and push setup.sh # Test whether it is necessary to push before the docker action accesses repository from git context
+        run: |
+            git add setup.sh
+            git commit -m "Updated setup.sh with ${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}"
+            git push
+  
+            echo New release tag: ${{ env.BDBWSVERSION }}
+  docker:
+    runs-on: ubuntu-latest
+    steps:                    
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
           tags: bigcatum/bridgedb:${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}
-
       -
         name: Build and push
         uses: docker/build-push-action@v4
