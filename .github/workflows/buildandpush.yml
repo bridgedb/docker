@@ -41,7 +41,8 @@ jobs:
           cat setup.sh | sed 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBWSVERSION="${{ env.BRIDGEDBWSVERSION }}"|g' > setup_tmp.sh
           mv setup_tmp.sh setup.sh
       
-      - name: commit and push setup.sh 
+      - name: commit and push setup.sh
+        if: github.ref == 'refs/heads/master'
         run: |
           git config --local user.name actions-user
           git config --local user.email "actions@github.com"
