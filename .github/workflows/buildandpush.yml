@@ -60,6 +60,7 @@ jobs:
             echo New release tag: ${{ env.BDBWSVERSION }}
   docker:
     runs-on: ubuntu-latest
+    needs: update-version
     steps:  
       -
         name: Retrieve tags
