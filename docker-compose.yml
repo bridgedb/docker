@@ -7,3 +7,5 @@ services:
     container_name: BRIDGEDB_WEBSERVICE_CONTAINER_NAME
     ports:
       - "8383:8383"
+    environments:
+      - SERVER_URL: localhost:8383
