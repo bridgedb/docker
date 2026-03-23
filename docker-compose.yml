@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  bridgedb-webservice:
+    build: .
+    restart: always
+    container_name: BRIDGEDB_WEBSERVICE_CONTAINER_NAME
+    ports:
+      - "8383:8383"
