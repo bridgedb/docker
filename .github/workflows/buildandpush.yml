@@ -42,13 +42,13 @@ jobs:
           mv setup_tmp.sh setup.sh
       
       - name: commit and push setup.sh
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: |
           git config --local user.name actions-user
           git config --local user.email "actions@github.com"
           git add setup.sh
           git diff --cached --quiet || git commit -m "Updated setup.sh with ${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}"
-          git push origin master
+          git push origin main
   
             echo New release tag: ${{ env.BDBWSVERSION }}
         env:
