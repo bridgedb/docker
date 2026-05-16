@@ -16,6 +16,13 @@ mkdir -p bridgedb/bridgedb/
 
 wget -O /opt/bridgedb/bridgedb/BridgeDb-Webservice.jar https://github.com/bridgedb/BridgeDbWebservice/releases/download/${BRIDGEDBWSVERSION}/BridgeDbWebservice-${BRIDGEDBWSVERSION}-jar-with-dependencies.jar
 
+# Fail the build if the webservice JAR did not download as a valid archive.
+# A JAR is a ZIP, so a good one is non-empty and starts with the "PK" signature.
+if [ ! -s /opt/bridgedb/bridgedb/BridgeDb-Webservice.jar ] || [ "$(head -c 2 /opt/bridgedb/bridgedb/BridgeDb-Webservice.jar)" != "PK" ]; then
+  echo "ERROR: BridgeDb-Webservice.jar failed to download (missing, empty, or not a JAR)." >&2
+  exit 1
+fi
+
 cd /
 mkdir /opt/bridgedb-databases/
 cd /opt/bridgedb-databases/
@@ -56,12 +63,38 @@ jq -r '.mappingFiles | .[] | select(.tested) | select(.tested|.[]|test(.|"WS")) 
 grep -v "Ec_Derby_Ensembl_91.bridge" files.txt > tmpfile && mv tmpfile files.txt
 grep -v "Mx_Derby_Ensembl_85.bridge" files.txt > tmpfile && mv tmpfile files.txt
 
+# Use figshare's legacy ndownloader host. The figshare.com/ndownloader/... host
+# sits behind an AWS WAF JavaScript challenge (responds HTTP 202 with header
+# x-amzn-waf-action: challenge) that non-browser clients -- wget, and the GitHub
+# Actions runner -- cannot solve, so downloads come back empty. The host
+# ndownloader.figshare.com serves the same file IDs directly without the challenge.
+sed -i 's#https://figshare.com/ndownloader/files/#https://ndownloader.figshare.com/files/#g' files.txt
 
+
+# Download each mapping database, retrying on transient failures. Some sources
+# (e.g. figshare) reply HTTP 202 with an empty body while a file is still being
+# staged, which wget would otherwise save as a 0-byte file. .bridge files are ZIP
+# archives, so a valid one is non-empty and starts with the "PK" signature.
+# Abort the build if a file cannot be fetched as a valid archive -- this prevents
+# publishing an image with a corrupt database that crashes the webservice on start.
 for FILE in $(cat files.txt)
 do
-  readarray -d = -t splitFILE<<< "$FILE"
-  echo ${splitFILE[0]}
-  wget -nc -O ${splitFILE[0]} ${splitFILE[1]}
+  # Split "name=url" with parameter expansion. (readarray + <<< would append a
+  # stray newline to the URL, which wget then sends URL-encoded as %0A.)
+  NAME=${FILE%%=*}
+  URL=${FILE#*=}
+  echo "Downloading ${NAME}"
+  attempt=1
+  until [ -s "${NAME}" ] && [ "$(head -c 2 "${NAME}")" = "PK" ]
+  do
+    if [ ${attempt} -gt 10 ]; then
+      echo "ERROR: ${NAME} could not be downloaded as a valid .bridge archive after 10 attempts (${URL})." >&2
+      exit 1
+    fi
+    [ ${attempt} -gt 1 ] && { echo "  attempt ${attempt} failed (empty or not a ZIP); retrying in 30s..."; sleep 30; }
+    wget -nv -O "${NAME}" "${URL}"
+    attempt=$((attempt + 1))
+  done
 done
 
 #Remove files that do not work
