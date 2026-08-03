@@ -10,85 +10,165 @@ on:
      #- 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
+     - 'tests/**'
+     - '.github/workflows/buildandpush.yml'
   pull_request:
     branches: [ "main" ]
     paths:
      #- 'setup.sh'
      - 'startup.sh'
      - 'Dockerfile'
+     - 'tests/**'
+     - '.github/workflows/buildandpush.yml'
 
 jobs:
+  # Resolve the versions once, from the webservice pom, and hand them to every
+  # later job. Nothing downstream re-reads the pom, so all jobs are guaranteed to
+  # agree on which release is being built.
+  resolve-version:
+    runs-on: ubuntu-latest
+    outputs:
+      bdbversion: ${{ steps.versions.outputs.bdbversion }}
+      wsversion: ${{ steps.versions.outputs.wsversion }}
+    steps:
+      - name: Retrieve BridgeDb and webservice versions from the pom
+        id: versions
+        run: |
+          wget -q -O pom.xml https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
+          BDBVERSION=$(grep -m 1 -oP "(?<=<bridgedb-version>).*" pom.xml | sed 's|</bridgedb-version>||g')
+          WSVERSION=$(grep -m 1 -oP "(?<=<version>).*" pom.xml | sed 's|</version>||g')
+          if [ -z "$BDBVERSION" ] || [ -z "$WSVERSION" ]; then
+            echo "ERROR: could not parse the versions out of the webservice pom." >&2
+            exit 1
+          fi
+          echo "bdbversion=$BDBVERSION" >> $GITHUB_OUTPUT
+          echo "wsversion=$WSVERSION" >> $GITHUB_OUTPUT
+          echo "Building for BridgeDb ${BDBVERSION}, webservice ${WSVERSION}"
+
+      # Fail before the (hour-long) image build rather than part-way through it
+      # if the release asset the image downloads has not been published yet.
+      - name: Verify the webservice release JAR exists
+        run: |
+          URL="https://github.com/bridgedb/BridgeDbWebservice/releases/download/${{ steps.versions.outputs.wsversion }}/BridgeDbWebservice-${{ steps.versions.outputs.wsversion }}-jar-with-dependencies.jar"
+          if ! curl -sfIL -o /dev/null "$URL"; then
+            echo "ERROR: release asset not found: $URL" >&2
+            echo "The webservice release for ${{ steps.versions.outputs.wsversion }} is probably not published yet." >&2
+            exit 1
+          fi
+          echo "Release asset is available."
+
   update-version:
     runs-on: ubuntu-latest
+    needs: resolve-version
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v6
-      -
-        name: Retrieve JAR version name
-        run: |
-          wget https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
-          echo "BDBVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<bridgedb-version>).*" | sed 's|</bridgedb-version>||g')" >> $GITHUB_ENV 
 
-      -
-        name: Retrieve WebService version name
+      - name: Update setup.sh with the resolved webservice version
         run: |
-          wget https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
-          echo "BRIDGEDBWSVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<version>).*" | sed 's|</version>||g')" >> $GITHUB_ENV 
+          sed -i 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBWSVERSION="${{ needs.resolve-version.outputs.wsversion }}"|g' setup.sh
 
-      - name: Update setup.sh with BDBWSVERSION
-        run: |
-          cat setup.sh | sed 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBWSVERSION="${{ env.BRIDGEDBWSVERSION }}"|g' > setup_tmp.sh
-          mv setup_tmp.sh setup.sh
-      
       - name: commit and push setup.sh
         if: github.ref == 'refs/heads/main'
         run: |
           git config --local user.name actions-user
           git config --local user.email "actions@github.com"
           git add setup.sh
-          git diff --cached --quiet || git commit -m "Updated setup.sh with ${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}"
+          git diff --cached --quiet || git commit -m "Updated setup.sh with ${{ needs.resolve-version.outputs.bdbversion }}-${{ needs.resolve-version.outputs.wsversion }}"
           git push origin main
-  
-            echo New release tag: ${{ env.BDBWSVERSION }}
         env:
             REPO_KEY: ${{secrets.GITHUB_TOKEN}}
             username: github-actions
+
   docker:
     runs-on: ubuntu-latest
-    needs: update-version
-    steps:  
-      -
-        name: Checkout
+    needs: resolve-version
+    steps:
+      - name: Checkout
         uses: actions/checkout@v6
-      -
-        name: Set up QEMU
+
+      # The version is pinned here, in this job's own workspace, instead of
+      # relying on the commit that update-version makes. checkout resolves the
+      # SHA that triggered the run, which predates that commit, so taking the
+      # version from the checked-out setup.sh silently builds the PREVIOUS
+      # release's JAR while tagging the image with the current version.
+      - name: Pin setup.sh to the resolved webservice version
+        run: |
+          sed -i 's|BRIDGEDBWSVERSION=".\+"|BRIDGEDBWSVERSION="${{ needs.resolve-version.outputs.wsversion }}"|g' setup.sh
+          PINNED=$(grep -m1 -E '^export BRIDGEDBWSVERSION=' setup.sh | sed -e 's/.*="//' -e 's/".*//')
+          if [ "$PINNED" != "${{ needs.resolve-version.outputs.wsversion }}" ]; then
+            echo "ERROR: setup.sh pins '$PINNED' but this build is for '${{ needs.resolve-version.outputs.wsversion }}'." >&2
+            exit 1
+          fi
+          echo "setup.sh pinned to $PINNED"
+
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
-      -
-        name: Set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
-      -
-        name: Login to Docker Hub
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Retrieve tags
-        run: |
-          wget https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
-          echo "BDBVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<bridgedb-version>).*" | sed 's|</bridgedb-version>||g')" >> $GITHUB_ENV 
-          wget https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
-          echo "BRIDGEDBWSVERSION=$(cat pom.xml | grep -m 1 -oP "(?<=<version>).*" | sed 's|</version>||g')" >> $GITHUB_ENV 
-      -
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: bigcatum/bridgedb:${{ env.BDBVERSION }}-${{ env.BRIDGEDBWSVERSION }}
-      -
-        name: Build and push
+
+      # One build, one digest. This previously ran twice -- once for the version
+      # tag and once for :latest -- so the two tags were different images and
+      # :latest was never verifiably the release it claimed to be. :latest is no
+      # longer pushed here; it is promoted in test-and-promote once tests pass.
+      - name: Build and push the version tag
         uses: docker/build-push-action@v7
         with:
-          push: true
-          tags: bigcatum/bridgedb:latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: bigcatum/bridgedb:${{ needs.resolve-version.outputs.bdbversion }}-${{ needs.resolve-version.outputs.wsversion }}
+
+  # Verify the image that was actually published, then point :latest at it. A
+  # broken or mislabelled build therefore never becomes :latest.
+  test-and-promote:
+    runs-on: ubuntu-latest
+    needs: [resolve-version, docker]
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # The image unpacks to roughly 9 GB of Derby databases, which does not fit
+      # alongside the runner's preinstalled toolchains.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost
+          df -h /
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Verify the published image
+        run: |
+          IMAGE=bigcatum/bridgedb:${{ needs.resolve-version.outputs.bdbversion }}-${{ needs.resolve-version.outputs.wsversion }}
+          docker pull "$IMAGE"
+          tests/verify-image.sh "$IMAGE" "${{ needs.resolve-version.outputs.wsversion }}"
+
+      # Re-tag by digest rather than rebuilding, so :latest is bit-for-bit the
+      # image that was just tested.
+      - name: Promote the tested image to :latest
+        run: |
+          docker buildx imagetools create \
+            --tag bigcatum/bridgedb:latest \
+            bigcatum/bridgedb:${{ needs.resolve-version.outputs.bdbversion }}-${{ needs.resolve-version.outputs.wsversion }}
+
+      - name: Confirm :latest and the version tag are the same image
+        run: |
+          TAG=bigcatum/bridgedb:${{ needs.resolve-version.outputs.bdbversion }}-${{ needs.resolve-version.outputs.wsversion }}
+          VERSION_DIGEST=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "$TAG")
+          LATEST_DIGEST=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' bigcatum/bridgedb:latest)
+          echo "version tag: $VERSION_DIGEST"
+          echo "latest:      $LATEST_DIGEST"
+          if [ "$VERSION_DIGEST" != "$LATEST_DIGEST" ]; then
+            echo "ERROR: :latest does not point at the tested image." >&2
+            exit 1
+          fi
