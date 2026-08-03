@@ -1,0 +1,53 @@
+name: Verify published image
+
+# Checks the image that is actually on Docker Hub, independently of any build.
+# This catches a tag that is mislabelled, was overwritten by hand, or has rotted
+# relative to the current webservice release.
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: 'Image to verify (default: bigcatum/bridgedb:latest)'
+        required: false
+        default: 'bigcatum/bridgedb:latest'
+      expected_version:
+        description: 'Expected webservice version (default: read from the webservice pom)'
+        required: false
+        default: ''
+  schedule:
+    # Weekly, Monday 06:00 UTC.
+    - cron: '0 6 * * 1'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # The image unpacks to roughly 9 GB of Derby databases, which does not fit
+      # alongside the runner's preinstalled toolchains.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost
+          df -h /
+
+      - name: Determine image and expected version
+        id: target
+        run: |
+          IMAGE="${{ github.event.inputs.image }}"
+          [ -z "$IMAGE" ] && IMAGE="bigcatum/bridgedb:latest"
+          EXPECTED="${{ github.event.inputs.expected_version }}"
+          if [ -z "$EXPECTED" ]; then
+            wget -q -O pom.xml https://raw.githubusercontent.com/bridgedb/BridgeDbWebservice/main/pom.xml
+            EXPECTED=$(grep -m 1 -oP "(?<=<version>).*" pom.xml | sed 's|</version>||g')
+          fi
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+          echo "expected=$EXPECTED" >> $GITHUB_OUTPUT
+          echo "Verifying $IMAGE against webservice version $EXPECTED"
+
+      - name: Verify the published image
+        run: |
+          docker pull "${{ steps.target.outputs.image }}"
+          tests/verify-image.sh "${{ steps.target.outputs.image }}" "${{ steps.target.outputs.expected }}"

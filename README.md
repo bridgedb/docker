@@ -55,3 +55,40 @@ To stop a container, enter the following line. This will automatically remove th
 docker stop bridgedb
 ```
 
+## Testing an image
+
+`tests/` holds the checks that CI runs, and they can be run by hand against any
+image or any running service.
+
+To check a complete image — what is baked into it, plus its behaviour once
+started:
+
+```
+tests/verify-image.sh bigcatum/bridgedb:3.0.31-2.1.9
+```
+
+The expected webservice version is taken from the tag; pass it explicitly as a
+second argument for an image whose tag does not carry it (such as `:latest`):
+
+```
+tests/verify-image.sh bigcatum/bridgedb:latest 2.1.9
+```
+
+To test a service that is already running (a container, or a deployed host):
+
+```
+tests/smoke-test.sh http://localhost:8183 2.1.9
+```
+
+The checks cover the version the service reports for itself, the organism and
+datasource catalogues, and real Derby-backed identifier mappings for human and
+mouse. Both scripts exit non-zero when a check fails.
+
+Note that the webservice answers **HTTP 200 for unknown paths**, returning an
+"Unrecognized query" page rather than a 404, so these checks assert on response
+bodies. Any new check should do the same — asserting on the status code alone
+would pass against a server that resolves nothing at all.
+
+In CI, `verify-published-image.yml` runs the same checks weekly against the
+image on Docker Hub, and can be started manually for any tag.
+
