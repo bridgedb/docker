@@ -89,6 +89,19 @@ Note that the webservice answers **HTTP 200 for unknown paths**, returning an
 bodies. Any new check should do the same — asserting on the status code alone
 would pass against a server that resolves nothing at all.
 
+Two lines in the service log are expected and harmless — they are not signs of a
+broken image:
+
+```
+Warning: driver 'com.mysql.jdbc.Driver'  not in classpath, some features may not be available.
+Unable to parse organism: Fusarium graminearum
+```
+
+Also worth knowing when writing checks: 2.1.9 restored **plain TSV** as the
+default response format (`BRCA2<TAB>HGNC`), where 2.1.8 returned compact-identifier
+JSON (`{"hgnc.symbol:BRCA2":"HGNC"}`). The checks assert on bare identifiers and
+datasource names so they hold for both.
+
 In CI, `verify-published-image.yml` runs the same checks weekly against the
 image on Docker Hub, and can be started manually for any tag.
 
