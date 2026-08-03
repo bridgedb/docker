@@ -35,9 +35,13 @@ fail() { printf '  FAIL  %s\n' "$1"; printf '        %s\n' "$2"; FAILED=$((FAILE
 get() {
 	local path="$1" body
 	body=$($CURL "${BASE_URL}${path}" 2>/dev/null)
-	if [ -z "$body" ] || grep -q "Unrecognized query" <<<"$body"; then
-		return 1
-	fi
+	[ -z "$body" ] && return 1
+	# Match the error page by its opening text rather than by the phrase
+	# appearing anywhere: /swagger.yaml documents this very page, so a
+	# substring test rejects a perfectly good response.
+	case "$body" in
+	"Unrecognized query"*) return 1 ;;
+	esac
 	printf '%s' "$body"
 }
 
@@ -51,6 +55,22 @@ check_contains() {
 		pass "$label"
 	else
 		fail "$label" "expected '${needle}' in response from ${path}; got: $(head -c 200 <<<"$body")"
+	fi
+}
+
+# Same, but the needle is an extended regular expression. Used where a bare
+# substring would match by accident -- an Entrez id such as 675 also occurs
+# inside unrelated identifiers like the Affy probeset 3484675.
+check_matches() {
+	local label="$1" path="$2" pattern="$3" body
+	if ! body=$(get "$path"); then
+		fail "$label" "no usable response from ${path} (empty or 'Unrecognized query')"
+		return
+	fi
+	if grep -Eq -- "$pattern" <<<"$body"; then
+		pass "$label"
+	else
+		fail "$label" "expected /${pattern}/ in response from ${path}; got: $(head -c 200 <<<"$body")"
 	fi
 }
 
@@ -93,19 +113,27 @@ fi
 
 # --- catalogue ---------------------------------------------------------------
 check_contains "organism list includes Homo sapiens" /contents "Homo sapiens"
-check_contains "source datasources are listed" "/Homo%20sapiens/sourceDataSources" "supportedSourceDatasources"
+check_contains "source datasources are listed" "/Homo%20sapiens/sourceDataSources" "Wikidata"
 
 # --- mappings ----------------------------------------------------------------
-# A Derby-backed lookup. This is the check that fails outright when the JDBC
+# Derby-backed lookups. These are the checks that fail outright when the JDBC
 # driver is not registered and no .bridge file can be opened.
-check_contains "human gene mapping (BRCA2 -> Entrez)" \
-	"/Homo%20sapiens/xrefs/En/ENSG00000139618" "ncbigene:675"
+#
+# Assertions are on bare identifiers and datasource names, which appear in both
+# response formats the webservice has shipped: the compact-identifier JSON of
+# 2.1.8 ("hgnc.symbol:BRCA2") and the plain TSV that 2.1.9 restored as the
+# default ("BRCA2\tHGNC"). Matching either form keeps these tests usable across
+# versions instead of pinning them to whichever format shipped last.
+check_matches "human gene mapping (BRCA2 -> Entrez)" \
+	"/Homo%20sapiens/xrefs/En/ENSG00000139618" '(^|[":])675([[:space:]"]|$)'
 check_contains "human gene mapping (BRCA2 -> HGNC symbol)" \
-	"/Homo%20sapiens/xrefs/En/ENSG00000139618" "hgnc.symbol:BRCA2"
+	"/Homo%20sapiens/xrefs/En/ENSG00000139618" "BRCA2"
+check_contains "human mapping reports the Entrez datasource" \
+	"/Homo%20sapiens/xrefs/En/ENSG00000139618" "Entrez Gene"
 check_contains "target-restricted mapping (BRCA2 -> Wikidata)" \
-	"/Homo%20sapiens/xrefs/En/ENSG00000139618/Wd" "wikidata:Q17853272"
+	"/Homo%20sapiens/xrefs/En/ENSG00000139618/Wd" "Q17853272"
 check_contains "mouse gene mapping (Brca1)" \
-	"/Mus%20musculus/xrefs/En/ENSMUSG00000017146" "mgi:Brca1"
+	"/Mus%20musculus/xrefs/En/ENSMUSG00000017146" "Brca1"
 check_contains "attributes endpoint" \
 	"/Homo%20sapiens/attributes/En/ENSG00000139618" "Symbol"
 
